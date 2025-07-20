@@ -84,9 +84,6 @@ string Config_FW_BootNum;
 string default_OS_sel;
 string EFI_Label;
 string FW_BootNum_SteamOS;
-string install_refind_apt_path;
-string install_refind_dnf_path;
-string install_refind_Sforge_path;
 string GUID_Label;
 string labelCmd = "lsblk -no LABEL /dev/nvme0n1p1";
 string Legion_Go_Check_cmd = "cat /sys/devices/virtual/dmi/id/board_name";
@@ -198,31 +195,6 @@ void MainWindow::on_Boot_Option_04_Icon_pushButton_clicked()
     if (OS_Icon4_fileName != "")
     {
         ui->Boot_Option_04_Icon_lineEdit->setText(OS_Icon4_fileName);
-    }
-}
-
-void MainWindow::on_Install_rEFInd_clicked()
-{
-    install_refind_apt_path_o.str("");
-    install_refind_Sforge_path_o.str("");
-    install_refind_apt_path.clear();
-    install_refind_Sforge_path.clear();
-    refind_install_source = ui->Install_Source_comboBox->currentText();
-    if(refind_install_source == "Package Mgr")
-    {
-        install_refind_apt_path_o << user_home_path_str << "/.local/rEFInd_GUI/refind_install_package_mgr.sh";
-        install_refind_apt_path.append("xterm -e \"");
-        install_refind_apt_path.append(install_refind_apt_path_o.str());
-        install_refind_apt_path.append("\"");
-        system(install_refind_apt_path.c_str());
-    }
-    if(refind_install_source == "Sourceforge")
-    {
-        install_refind_Sforge_path_o << user_home_path_str << "/.local/rEFInd_GUI/refind_install_Sourceforge.sh";
-        install_refind_Sforge_path.append("xterm -e \"");
-        install_refind_Sforge_path.append(install_refind_Sforge_path_o.str());
-        install_refind_Sforge_path.append("\"");
-        system(install_refind_Sforge_path.c_str());
     }
 }
 
@@ -707,7 +679,6 @@ void MainWindow::readSettings()
         int tempBoot03 = settings.value("BootComboBox03").toInt();
         int tempBoot04 = settings.value("BootComboBox04").toInt();
         int LinuxChoice = settings.value("LinuxComboBox").toInt();
-        int InstallSource = settings.value("InstallSourceComboBox").toInt();
     settings.endGroup();
     settings.beginGroup("Timeout");
         QString tempTimeout = settings.value("Timeout").toString();
@@ -718,7 +689,6 @@ void MainWindow::readSettings()
     ui->Boot_Option_03_comboBox->setCurrentIndex(tempBoot03);
     ui->Boot_Option_04_comboBox->setCurrentIndex(tempBoot04);
     ui->Linux_Select_comboBox->setCurrentIndex(LinuxChoice);
-    ui->Install_Source_comboBox->setCurrentIndex(InstallSource);
     ui->Last_OS_CheckBox->setChecked(temp_Last_OS_bool);
     ui->Firmware_bootnum_CheckBox->setChecked(FW_bool);
     ui->Enable_Mouse_checkBox->setChecked(use_Mouse_bool);
@@ -738,7 +708,6 @@ void MainWindow::writeSettings()
         settings.setValue("BootComboBox03", ui->Boot_Option_03_comboBox->currentIndex());
         settings.setValue("BootComboBox04", ui->Boot_Option_04_comboBox->currentIndex());
         settings.setValue("LinuxComboBox", ui->Linux_Select_comboBox->currentIndex());
-        settings.setValue("InstallSourceComboBox", ui->Install_Source_comboBox->currentIndex());
     settings.endGroup();
     settings.beginGroup("CheckBoxes");
         settings.setValue("LastOSCheckBox", ui->Last_OS_CheckBox->isChecked());

@@ -38,8 +38,6 @@ private slots:
 
     void on_Boot_Option_04_Icon_pushButton_clicked();
 
-    void on_Install_rEFInd_clicked();
-
     void on_Create_Config_clicked();
 
     void on_Install_Config_clicked();
